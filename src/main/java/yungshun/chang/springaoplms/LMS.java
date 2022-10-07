@@ -1,7 +1,7 @@
 package yungshun.chang.springaoplms;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import yungshun.chang.springaoplms.dao.AccountDAO;
+import yungshun.chang.springaoplms.dao.UserDAO;
 
 public class LMS {
 
@@ -11,16 +11,16 @@ public class LMS {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(LMSConfig.class);
 
         // Get the bean from Spring container
-        AccountDAO accountDAO = context.getBean("accountDAO", AccountDAO.class);
+        UserDAO userDAO = context.getBean("userDAO", UserDAO.class);
 
         // Call the business method
-        accountDAO.addAccount();
+        userDAO.addUser();
 
         // Call it again
         System.out.println("\nCall the method again!\n");
 
         // Call the business method
-        accountDAO.addAccount();
+        userDAO.addUser();
 
         // Close the context
         context.close();
