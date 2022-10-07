@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class LMSAspect {
 
-    @Before("execution(public void addAccount())")
-    public void beforeAddAccountAdvice() {
-        System.out.println("\n=====>>> Executing @Before advice on addAccount()");
+    @Before("execution(public void addUser(..))")
+    public void beforeAddUserAdvice() {
+        System.out.println("\n=====>>> Executing @Before advice on addUser()");
     }
 }
