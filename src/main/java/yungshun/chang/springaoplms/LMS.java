@@ -12,18 +12,25 @@ public class LMS {
         // Read Spring Config Java class
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(LMSConfig.class);
 
-        // Get the user bean from Spring container
+        // Get the User bean from Spring container
         UserDAO userDAO = context.getBean("userDAO", UserDAO.class);
 
-        // Get the role bean from Spring container
+        // Get the Role bean from Spring container
         RoleDAO roleDAO = context.getBean("roleDAO", RoleDAO.class);
 
-        // Call the user business method
+        // Call the User business method
         User user = new User();
         userDAO.addUser(user, true);
         userDAO.updateUser();
 
-        // Call the role business method
+        // Call the UserDAO getter/setter methods
+        userDAO.setFirstName("Mai");
+        userDAO.setLastName("Shiranui");
+
+        String firstName = userDAO.getFirstName();
+        String lastName = userDAO.getLastName();
+
+        // Call the Role business method
         roleDAO.addRole();
         roleDAO.updateRole();
 
