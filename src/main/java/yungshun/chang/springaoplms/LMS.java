@@ -20,6 +20,9 @@ public class LMS {
 
         // Call the User business method
         User user = new User();
+        user.setFirstName("Lili");
+        user.setLastName("Rochefort");
+
         userDAO.addUser(user, true);
         userDAO.updateUser();
 
