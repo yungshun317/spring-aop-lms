@@ -54,13 +54,25 @@ public class LMSAspect {
 
         // Print out the user list returning by the method
         System.out.println("\n=====>>> Find users: " + users);
-        
+
         // Post-process the data. Convert the user names to uppercase
+        convertUserNamesToUpperCase(users);
 
         System.out.println("\n=====>>> Find users: " + users);
     }
 
     private void convertUserNamesToUpperCase(List<User> users) {
 
+        // Loop through users
+        for (User tmpUser: users) {
+
+            // Get uppercase version of firstName & lastName
+            String upperFirstName = tmpUser.getFirstName().toUpperCase();
+            String upperLastName = tmpUser.getLastName().toUpperCase();
+
+            // Update the names on the `User`
+            tmpUser.setFirstName(upperFirstName);
+            tmpUser.setLastName(upperLastName);
+        }
     }
 }
