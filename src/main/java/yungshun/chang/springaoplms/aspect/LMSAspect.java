@@ -50,7 +50,7 @@ public class LMSAspect {
 
         // Print out which method we are advising on
         String method = joinPoint.getSignature().toShortString();
-        System.out.println("\\n=====>>> Executing @AfterReturning on method: " + method);
+        System.out.println("\n=====>>> Executing @AfterReturning on method: " + method);
 
         // Print out the user list returning by the method
         System.out.println("\n=====>>> Find users: " + users);

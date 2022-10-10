@@ -5,6 +5,8 @@ import yungshun.chang.springaoplms.dao.RoleDAO;
 import yungshun.chang.springaoplms.dao.UserDAO;
 import yungshun.chang.springaoplms.entity.User;
 
+import java.util.List;
+
 public class LMS {
 
     public static void main(String[] args) {
@@ -14,6 +16,8 @@ public class LMS {
 
         // Get the User bean from Spring container
         UserDAO userDAO = context.getBean("userDAO", UserDAO.class);
+
+        /* [1] `@Before`
 
         // Get the Role bean from Spring container
         RoleDAO roleDAO = context.getBean("roleDAO", RoleDAO.class);
@@ -36,6 +40,16 @@ public class LMS {
         // Call the Role business method
         roleDAO.addRole();
         roleDAO.updateRole();
+
+         */
+
+        // [2] `@AfterReturning`
+
+        // Call method to find the users
+        List<User> users = userDAO.findUsers();
+
+        // Display the users
+        System.out.println(users);
 
         // Close the context
         context.close();
