@@ -1,10 +1,7 @@
 package yungshun.chang.springaoplms.aspect;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -45,7 +42,10 @@ public class LMSAspect {
     }
 
     // Add a new advice for `@AfterReturning` on the `findUsers` method
-    @AfterReturning(pointcut="execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..))", returning="users")
+    @AfterReturning(
+            pointcut="execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..))",
+            returning="users"
+    )
     public void afterReturningFindUsersAdvice(JoinPoint joinPoint, List<User> users) {
 
         // Print out which method we are advising on
@@ -74,5 +74,19 @@ public class LMSAspect {
             tmpUser.setFirstName(upperFirstName);
             tmpUser.setLastName(upperLastName);
         }
+    }
+
+    @AfterThrowing(
+            pointcut="execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..)",
+            throwing="exc"
+    )
+    public void afterThrowingFindUsersAdvice(JoinPoint joinPoint, Throwable exc) {
+
+        // Print out which method we are advising on
+        String method = joinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @AfterThrowing on method: " + method);
+
+        // Log the exception
+        System.out.println("\n=====>>> The exception is: " + exc);
     }
 }
