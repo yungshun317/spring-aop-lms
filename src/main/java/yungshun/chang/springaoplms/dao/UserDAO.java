@@ -12,7 +12,12 @@ public class UserDAO {
     private String firstName;
     private String lastName;
 
-    public List<User> findUsers() {
+    public List<User> findUsers(boolean tripWire) {
+
+        // Simulate an exception
+        if (tripWire) {
+            throw new RuntimeException("No soup for you!");
+        }
 
         List<User> users = new ArrayList<>();
 

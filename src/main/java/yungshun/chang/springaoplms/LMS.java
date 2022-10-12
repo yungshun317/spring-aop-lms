@@ -18,7 +18,6 @@ public class LMS {
         UserDAO userDAO = context.getBean("userDAO", UserDAO.class);
 
         /* [1] `@Before`
-
         // Get the Role bean from Spring container
         RoleDAO roleDAO = context.getBean("roleDAO", RoleDAO.class);
 
@@ -40,13 +39,27 @@ public class LMS {
         // Call the Role business method
         roleDAO.addRole();
         roleDAO.updateRole();
-
          */
 
-        // [2] `@AfterReturning`
-
+        /* [2] `@AfterReturning`
         // Call method to find the users
         List<User> users = userDAO.findUsers();
+
+        // Display the users
+        System.out.println(users);
+         */
+
+        // [3] `@AfterThrowing`
+        // call method to find the users
+        List<User> users = null;
+
+        try {
+            // Add a boolean flag to simulate exceptions
+            boolean tripWire = true;
+            users = userDAO.findUsers(tripWire);
+        } catch (Exception exc) {
+            System.out.println("Caught exception: " + exc);
+        }
 
         // Display the users
         System.out.println(users);

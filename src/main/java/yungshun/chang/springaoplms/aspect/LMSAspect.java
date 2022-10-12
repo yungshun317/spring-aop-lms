@@ -77,7 +77,7 @@ public class LMSAspect {
     }
 
     @AfterThrowing(
-            pointcut="execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..)",
+            pointcut="execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..))",
             throwing="exc"
     )
     public void afterThrowingFindUsersAdvice(JoinPoint joinPoint, Throwable exc) {
