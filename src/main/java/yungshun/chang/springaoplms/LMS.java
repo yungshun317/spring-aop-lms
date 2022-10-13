@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import yungshun.chang.springaoplms.dao.RoleDAO;
 import yungshun.chang.springaoplms.dao.UserDAO;
 import yungshun.chang.springaoplms.entity.User;
+import yungshun.chang.springaoplms.service.UserService;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class LMS {
         System.out.println(users);
          */
 
-        // [4] `@AfterFinally`
+        /* [4] `@AfterFinally`
         // Call method to find the users
         List<User> users = null;
 
@@ -79,6 +80,16 @@ public class LMS {
 
         // Display the users
         System.out.println(users);
+         */
+
+        // [5] `@Around`
+        // Get the bean from Spring container
+        UserService userService = context.getBean("userService", UserService.class);
+
+        System.out.println("Call getPermission");
+        String notification = userService.getPermission();
+        System.out.println("Your permission is: " + notification);
+        System.out.println("Done.");
 
         // Close the context
         context.close();
