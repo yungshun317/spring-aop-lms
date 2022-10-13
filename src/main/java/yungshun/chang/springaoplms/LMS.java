@@ -49,13 +49,29 @@ public class LMS {
         System.out.println(users);
          */
 
-        // [3] `@AfterThrowing`
-        // call method to find the users
+        /* [3] `@AfterThrowing`
+        // Call method to find the users
         List<User> users = null;
 
         try {
             // Add a boolean flag to simulate exceptions
             boolean tripWire = true;
+            users = userDAO.findUsers(tripWire);
+        } catch (Exception exc) {
+            System.out.println("Caught exception: " + exc);
+        }
+
+        // Display the users
+        System.out.println(users);
+         */
+
+        // [4] `@AfterFinally`
+        // Call method to find the users
+        List<User> users = null;
+
+        try {
+            // Add a boolean flag to simulate exceptions
+            boolean tripWire = false;
             users = userDAO.findUsers(tripWire);
         } catch (Exception exc) {
             System.out.println("Caught exception: " + exc);

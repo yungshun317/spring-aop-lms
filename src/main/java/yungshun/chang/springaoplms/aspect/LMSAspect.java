@@ -89,4 +89,12 @@ public class LMSAspect {
         // Log the exception
         System.out.println("\n=====>>> The exception is: " + exc);
     }
+
+    @After("execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..))")
+    public void afterFinallyFindUsersAdvice(JoinPoint joinPoint) {
+
+        // Print out which method we are advising on
+        String method = joinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @After (finally) on method: " + method);
+    }
 }
