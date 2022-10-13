@@ -1,6 +1,7 @@
 package yungshun.chang.springaoplms.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
@@ -96,5 +97,28 @@ public class LMSAspect {
         // Print out which method we are advising on
         String method = joinPoint.getSignature().toShortString();
         System.out.println("\n=====>>> Executing @After (finally) on method: " + method);
+    }
+
+    @Around("execution(* yungshun.chang.springaoplms.service.*.getPermission(..))")
+    public Object aroundGetPermission(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
+        // Print out which method we are advising on
+        String method = proceedingJoinPoint.getSignature().toShortString();
+        System.out.println("\n=====>>> Executing @Around on method: " + method);
+
+        // Get `begin` timestamp
+        long begin = System.currentTimeMillis();
+
+        // Execute the method
+        Object result = proceedingJoinPoint.proceed();
+
+        // Get `end` timestamp
+        long end = System.currentTimeMillis();
+
+        // Compute duration & display it
+        long duration = end - begin;
+        System.out.println("\n=====> Duration: " + duration / 1000.0 + " seconds");
+
+        return result;
     }
 }
