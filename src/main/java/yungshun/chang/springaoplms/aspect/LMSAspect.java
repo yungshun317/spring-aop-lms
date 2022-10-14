@@ -123,6 +123,9 @@ public class LMSAspect {
 
             // Give users a custom message
             result = "Denied!";
+
+            // Rethrow exception
+            throw exc;
         }
 
         // Get `end` timestamp
