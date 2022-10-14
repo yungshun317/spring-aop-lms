@@ -9,11 +9,14 @@ import org.springframework.stereotype.Component;
 import yungshun.chang.springaoplms.entity.User;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Aspect
 @Component
 @Order(2)
 public class LMSAspect {
+
+    private Logger logger = Logger.getLogger(getClass().getName());
 
     @Before("execution(public void addUser(..))")
     public void beforeAddUserAdvice(JoinPoint joinPoint) {
@@ -22,7 +25,7 @@ public class LMSAspect {
 
         // Display the method signature
         MethodSignature methodSig = (MethodSignature) joinPoint.getSignature();
-        System.out.println("Method: " + methodSig);
+        logger.info("Method: " + methodSig);
 
         // Get method arguments
         Object[] args = joinPoint.getArgs();
@@ -30,14 +33,14 @@ public class LMSAspect {
         // Loop through & Display method arguments
         for (Object tmpArg: args) {
 
-            System.out.println(tmpArg);
+            logger.info(tmpArg.toString());
 
             if (tmpArg instanceof User) {
                 // Downcast & print User specific stuff
                 User user = (User) tmpArg;
 
-                System.out.println("User firstName: " + user.getFirstName());
-                System.out.println("User lastName: " + user.getLastName());
+                logger.info("User firstName: " + user.getFirstName());
+                logger.info("User lastName: " + user.getLastName());
             }
         }
     }
@@ -51,15 +54,15 @@ public class LMSAspect {
 
         // Print out which method we are advising on
         String method = joinPoint.getSignature().toShortString();
-        System.out.println("\n=====>>> Executing @AfterReturning on method: " + method);
+        logger.info("\n=====>>> Executing @AfterReturning on method: " + method);
 
         // Print out the user list returning by the method
-        System.out.println("\n=====>>> Find users: " + users);
+        logger.info("\n=====>>> Find users: " + users);
 
         // Post-process the data. Convert the user names to uppercase
         convertUserNamesToUpperCase(users);
 
-        System.out.println("\n=====>>> Find users: " + users);
+        logger.info("\n=====>>> Find users: " + users);
     }
 
     private void convertUserNamesToUpperCase(List<User> users) {
@@ -85,10 +88,10 @@ public class LMSAspect {
 
         // Print out which method we are advising on
         String method = joinPoint.getSignature().toShortString();
-        System.out.println("\n=====>>> Executing @AfterThrowing on method: " + method);
+        logger.info("\n=====>>> Executing @AfterThrowing on method: " + method);
 
         // Log the exception
-        System.out.println("\n=====>>> The exception is: " + exc);
+        logger.info("\n=====>>> The exception is: " + exc);
     }
 
     @After("execution(* yungshun.chang.springaoplms.dao.UserDAO.findUsers(..))")
@@ -96,7 +99,7 @@ public class LMSAspect {
 
         // Print out which method we are advising on
         String method = joinPoint.getSignature().toShortString();
-        System.out.println("\n=====>>> Executing @After (finally) on method: " + method);
+        logger.info("\n=====>>> Executing @After (finally) on method: " + method);
     }
 
     @Around("execution(* yungshun.chang.springaoplms.service.*.getPermission(..))")
@@ -104,20 +107,30 @@ public class LMSAspect {
 
         // Print out which method we are advising on
         String method = proceedingJoinPoint.getSignature().toShortString();
-        System.out.println("\n=====>>> Executing @Around on method: " + method);
+        logger.info("\n=====>>> Executing @Around on method: " + method);
 
         // Get `begin` timestamp
         long begin = System.currentTimeMillis();
 
         // Execute the method
-        Object result = proceedingJoinPoint.proceed();
+        Object result = null;
+
+        try {
+            result = proceedingJoinPoint.proceed();
+        } catch (Exception exc) {
+            // Log the exception
+            logger.warning(exc.getMessage());
+
+            // Give users a custom message
+            result = "Denied!";
+        }
 
         // Get `end` timestamp
         long end = System.currentTimeMillis();
 
         // Compute duration & display it
         long duration = end - begin;
-        System.out.println("\n=====> Duration: " + duration / 1000.0 + " seconds");
+        logger.info("\n=====> Duration: " + duration / 1000.0 + " seconds");
 
         return result;
     }

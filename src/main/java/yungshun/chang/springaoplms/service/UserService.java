@@ -19,4 +19,13 @@ public class UserService {
         // Return a notification
         return "Permission is under review";
     }
+
+    public String getPermission(boolean tripWire) {
+
+        if (tripWire) {
+            throw new RuntimeException("Your application is denied!");
+        }
+
+        return getPermission();
+    }
 }

@@ -7,8 +7,11 @@ import yungshun.chang.springaoplms.entity.User;
 import yungshun.chang.springaoplms.service.UserService;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class LMS {
+
+    private static Logger logger = Logger.getLogger(LMS.class.getName());
 
     public static void main(String[] args) {
 
@@ -59,11 +62,11 @@ public class LMS {
             boolean tripWire = true;
             users = userDAO.findUsers(tripWire);
         } catch (Exception exc) {
-            System.out.println("Caught exception: " + exc);
+            logger.error("Caught exception: " + exc);
         }
 
         // Display the users
-        System.out.println(users);
+        logger.info(users);
          */
 
         /* [4] `@AfterFinally`
@@ -75,21 +78,24 @@ public class LMS {
             boolean tripWire = false;
             users = userDAO.findUsers(tripWire);
         } catch (Exception exc) {
-            System.out.println("Caught exception: " + exc);
+            logger.error("Caught exception: " + exc);
         }
 
         // Display the users
-        System.out.println(users);
+        logger.info(users);
          */
 
         // [5] `@Around`
         // Get the bean from Spring container
         UserService userService = context.getBean("userService", UserService.class);
 
-        System.out.println("Call getPermission");
-        String notification = userService.getPermission();
-        System.out.println("Your permission is: " + notification);
-        System.out.println("Done.");
+        logger.info("Call getPermission");
+
+        boolean tripWire = true;
+        String notification = userService.getPermission(tripWire);
+
+        logger.info("Your permission is: " + notification);
+        logger.info("Done.");
 
         // Close the context
         context.close();
